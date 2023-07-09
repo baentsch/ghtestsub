@@ -1,0 +1,16 @@
+name: triggered ci
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ "main" ]
+  repository_dispatch:
+    types: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Just a test
+        run: echo "Hello World"
