@@ -7,7 +7,7 @@ ARG INSTALLDIR=/opt/oqssa
 ARG LIBOQS_BUILD_DEFINES="-DOQS_DIST_BUILD=ON"
 
 # Define the degree of parallelism when building the image; leave the number away only if you know what you are doing
-ARG MAKE_DEFINES="-j 2"
+ARG MAKE_DEFINES="-j 8"
 
 # Change this at your own risk: OSSL3 can handle OQS-sigs only
 # after https://github.com/openssl/openssl/pull/19312 lands
@@ -40,9 +40,6 @@ RUN git clone --depth 1 --branch main https://github.com/open-quantum-safe/liboq
     git clone --depth 1 --branch master https://github.com/openssl/openssl.git && \
     git clone --depth 1 --branch main https://github.com/open-quantum-safe/oqs-provider.git
 
-WORKDIR /opt/liboqs
-RUN mkdir build && cd build && cmake -G"Ninja" .. ${LIBOQS_BUILD_DEFINES} -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} && ninja install
-
 # build OpenSSL3
 WORKDIR /opt/openssl
 RUN LDFLAGS="-Wl,-rpath -Wl,${INSTALLDIR}/lib64" ./config shared --prefix=${INSTALLDIR} && \
@@ -50,6 +47,9 @@ RUN LDFLAGS="-Wl,-rpath -Wl,${INSTALLDIR}/lib64" ./config shared --prefix=${INST
 
 # set path to use 'new' openssl & curl. Dyn libs have been properly linked in to match
 ENV PATH="${INSTALLDIR}/bin:${PATH}"
+
+WORKDIR /opt/liboqs
+RUN mkdir build && cd build && cmake -G"Ninja" .. -DOPENSSL_ROOT_DIR=${INSTALLDIR} ${LIBOQS_BUILD_DEFINES} -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} && ninja install
 
 # build & install provider (and activate by default)
 WORKDIR /opt/oqs-provider
