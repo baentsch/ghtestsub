@@ -19,10 +19,9 @@ jobs:
       matrix:
         platform:
           - linux/amd64
-#         - linux/arm/v6
-#         - linux/arm/v7
-# TBD: Reactivate later
-#          - linux/arm64
+          - linux/arm/v6
+          - linux/arm/v7
+          - linux/arm64
     steps:
       - name: Just a test
         run: echo "Hello World"
