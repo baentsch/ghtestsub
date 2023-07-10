@@ -3,7 +3,7 @@ set -e
 
 # Optionally set KEM to one defined in https://github.com/open-quantum-safe/openssl#key-exchange
 if [ "x$KEM_ALG" == "x" ]; then
-	export KEM_ALG=kyber512
+	export KEM_ALG=kyber768
 fi
 
 # OQS sig certs not yet supported in OSSL3 oqsprovider
