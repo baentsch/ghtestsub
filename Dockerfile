@@ -114,7 +114,7 @@ WORKDIR ${INSTALLDIR_OPENSSL}/bin
 
 # generate server CSR using pre-set CA.key and cert
 # and generate server cert
-RUN set -x && mkdir /opt/test; \
+RUN set -x && mkdir -p /opt/test; \
     openssl version && openssl req -new -newkey ${SIG_ALG} -keyout /opt/test/server.key -out /opt/test/server.csr -nodes -subj "/CN=localhost" -config ${OPENSSL_CNF}; \
     openssl x509 -req -in /opt/test/server.csr -out /opt/test/server.crt -CA CA.crt -CAkey CA.key -CAcreateserial -days 365;
 
