@@ -29,7 +29,9 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       - name: Get short rev ID
-        run: SHORTREV=`git rev-parse --short HEAD` && echo $SHORTREV
+        run: echo "OQS_COMMIT_SHORTREV=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - name: Check short rev var
+        run: echo $OQS_COMMIT_SHORTREV
       -
         name: Docker meta
         id: meta
