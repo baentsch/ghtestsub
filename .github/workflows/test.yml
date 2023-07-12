@@ -56,7 +56,8 @@ jobs:
           context: .
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.OQS_COMMIT_SHORTREV }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          tags: ${{ env.REGISTRY_IMAGE }}:${{ env.OQS_COMMIT_SHORTREV }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       -
