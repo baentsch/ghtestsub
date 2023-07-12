@@ -57,7 +57,6 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
-          tags: ${{ env.REGISTRY_IMAGE }}:${{ env.OQS_COMMIT_SHORTREV }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       -
@@ -112,3 +111,10 @@ jobs:
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
 
+      -
+        name: Tag image
+        run: |
+          docker tag ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }} ${{ env.REGISTRY_IMAGE }}:latest
+          docker tag ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }} ${{ env.REGISTRY_IMAGE }}:${{ env.OQS_COMMIT_SHORTREV }}
+          docker push ${{ env.REGISTRY_IMAGE }}:latest
+          docker push ${{ env.REGISTRY_IMAGE }}:${{ env.OQS_COMMIT_SHORTREV }}
