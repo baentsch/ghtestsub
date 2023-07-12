@@ -36,6 +36,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          tags: |
+            type=sha,enable=true
+            type=raw,value=latest,enable=true
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -111,10 +114,3 @@ jobs:
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
 
-      -
-        name: Tag image
-        run: |
-          docker tag ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }} ${{ env.REGISTRY_IMAGE }}:latest
-          docker tag ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }} ${{ env.REGISTRY_IMAGE }}:${{ env.OQS_COMMIT_SHORTREV }}
-          docker push ${{ env.REGISTRY_IMAGE }}:latest
-          docker push ${{ env.REGISTRY_IMAGE }}:${{ env.OQS_COMMIT_SHORTREV }}
