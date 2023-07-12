@@ -36,9 +36,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          tags: |
-            type=sha,enable=true
-            type=raw,value=latest,enable=true
+#          tags: |
+#            type=sha,enable=true
+#            type=raw,value=latest,enable=true
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -98,7 +98,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=sha,enable=true
+            type=sha,enable=true,prefix=commit-
             type=raw,value=latest,enable=true
       -
         name: Login to Docker Hub
