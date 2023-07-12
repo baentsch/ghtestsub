@@ -25,11 +25,11 @@ jobs:
     steps:
       - name: Just a test
         run: echo "Hello World"
-      - name: Show environment
-        run: env
       -
         name: Checkout
         uses: actions/checkout@v3
+      - name: Get short rev ID
+        run: git rev-parse --short HEAD
       -
         name: Docker meta
         id: meta
