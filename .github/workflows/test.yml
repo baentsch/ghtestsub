@@ -21,7 +21,7 @@ jobs:
           - linux/amd64
 #          - linux/arm/v6
 #          - linux/arm/v7
-#          - linux/arm64
+          - linux/arm64
     steps:
       - name: Just a test
         run: echo "Hello World"
@@ -36,9 +36,6 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-#          tags: |
-#            type=sha,enable=true
-#            type=raw,value=latest,enable=true
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
